@@ -42,7 +42,6 @@ public class WebAppInterface
         manager.notify(1, builder.build());
     }
 
-
     @JavascriptInterface
     public void showCall()
     {

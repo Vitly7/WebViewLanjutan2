@@ -1,13 +1,18 @@
 package com.example.webviewlanjutan2;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.MediaStore;
 import android.net.Uri;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
+
+import androidx.core.app.NotificationCompat;
 
 
 public class WebAppInterface
@@ -24,10 +29,19 @@ public class WebAppInterface
     }
 
     @JavascriptInterface
-    public void showNotification(String title, String message)
-        {
-            Toast.makeText(_context, title + " : " + message, Toast.LENGTH_LONG).show();
-        }
+    public void showNotification(String title, String message) {
+        NotificationChannel channel = new NotificationChannel("twChannel", "TW", NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationManager manager = (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(_context, "twChannel")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setChannelId(channel.getId());
+        manager.createNotificationChannel(channel);
+        manager.notify(1, builder.build());
+    }
+
 
     @JavascriptInterface
     public void showCall()
